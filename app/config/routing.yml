@@ -1,0 +1,4 @@
+ExodUtopicVillageBundle:
+    resource: "@ExodUtopicVillageBundle/Controller/"
+    type:     annotation
+    prefix:   /
