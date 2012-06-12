@@ -8,7 +8,7 @@ use Exod\Bundle\UtopicVillageBundle\Entity\User;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Message
  *
- * @ORM\Table("message")
+ * @ORM\Table(name="message")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\MessageRepository")
  */
 class Message
@@ -178,7 +178,7 @@ class Message
      *
      * @param User $receiver
      */
-    public function setSender($receiver)
+    public function setReceiver($receiver)
     {
     	$this->receiver = $receiver;
     }

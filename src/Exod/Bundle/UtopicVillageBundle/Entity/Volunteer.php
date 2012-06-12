@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Volunteer
  *
- * @ORM\Table("volunteer")
+ * @ORM\Table(name="volunteer")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\VolunteerRepository")
  */
 class Volunteer

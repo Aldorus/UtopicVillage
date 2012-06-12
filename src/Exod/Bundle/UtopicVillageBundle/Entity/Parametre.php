@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Parametre
  *
- * @ORM\Table("parametre")
+ * @ORM\Table(name="parametre")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\ParametreRepository")
  */
 class Parametre

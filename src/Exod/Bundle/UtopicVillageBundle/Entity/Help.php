@@ -8,7 +8,7 @@ use Exod\Bundle\UtopicVillageBundle\Entity\User;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Help
  *
- * @ORM\Table("help")
+ * @ORM\Table(name="help")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\HelpRepository")
  */
 class Help

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Sanction
  *
- * @ORM\Table("sanction")
+ * @ORM\Table(name="sanction")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\SanctionRepository")
  */
 class Sanction

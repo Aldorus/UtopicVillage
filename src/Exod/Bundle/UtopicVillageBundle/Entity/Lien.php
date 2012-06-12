@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Lien
  *
- * @ORM\Table("lien")
+ * @ORM\Table(name="lien")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\LienRepository")
  */
 class Lien

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Role
  *
- * @ORM\Table("role")
+ * @ORM\Table(name="role")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\RoleRepository")
  */
 class Role

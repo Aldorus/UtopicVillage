@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\User
  *
- * @ORM\Table("user")
+ * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Exod\Bundle\UtopicVillageBundle\Repository\UserRepository")
  */
 class User
@@ -97,7 +97,7 @@ class User
     private $role;
     
     /**
-     * @ORM\OneToOne(targetEntity="Namespace\Bundle\Entity\Adresse")
+     * @ORM\OneToOne(targetEntity="Sanction")
      */
     private $sanction;
 
