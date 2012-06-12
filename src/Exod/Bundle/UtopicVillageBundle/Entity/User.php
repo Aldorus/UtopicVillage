@@ -90,6 +90,16 @@ class User
      * @ORM\Column(name="active", type="boolean", nullable=false)
      */
     private $active;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Role")
+     */
+    private $role;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Namespace\Bundle\Entity\Adresse")
+     */
+    private $sanction;
 
     /**
      * Get id
@@ -299,5 +309,45 @@ class User
     public function getActive()
     {
     	return $this->active;
+    }
+    
+    /**
+     * Set role
+     *
+     * @param Role $role
+     */
+    public function setRole($role)
+    {
+    	$this->role = $role;
+    }
+    
+    /**
+     * Get role
+     *
+     * @return Role
+     */
+    public function getRole()
+    {
+    	return $this->role;
+    }
+    
+    /**
+     * Set sanction
+     *
+     * @param Sanction $sanction
+     */
+    public function setSanction($sanction)
+    {
+    	$this->sanction = $sanction;
+    }
+    
+    /**
+     * Get sanction
+     *
+     * @return Sanction
+     */
+    public function getSanction()
+    {
+    	return $this->sanction;
     }
 }

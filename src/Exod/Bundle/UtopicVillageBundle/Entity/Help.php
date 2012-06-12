@@ -3,6 +3,7 @@
 namespace Exod\Bundle\UtopicVillageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exod\Bundle\UtopicVillageBundle\Entity\User;
 
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Help
@@ -56,7 +57,11 @@ class Help
      */
     private $active;
 
-
+    /**
+     * @ORM\OneToOne(targetEntity="User")
+     */
+    private $user;
+    
     /**
      * Get id
      *
@@ -165,5 +170,25 @@ class Help
     public function getActive()
     {
     	return $this->active;
+    }
+    
+    /**
+     * Set user
+     *
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+    	$this->user = $user;
+    }
+    
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+    	return $this->user;
     }
 }

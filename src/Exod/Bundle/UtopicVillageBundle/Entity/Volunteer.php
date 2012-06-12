@@ -27,6 +27,18 @@ class Volunteer
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
+    
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $user;
+    
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Help")
+     */
+    private $help;
 
 
     /**
@@ -57,5 +69,45 @@ class Volunteer
     public function getDate()
     {
         return $this->date;
+    }
+    
+    /**
+     * Set user
+     *
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+    	$this->user = $user;
+    }
+    
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+    	return $this->user;
+    }
+    
+    /**
+     * Set help
+     *
+     * @param Help $help
+     */
+    public function setHelp($help)
+    {
+    	$this->help = $help;
+    }
+    
+    /**
+     * Get help
+     *
+     * @return Help
+     */
+    public function getHelp()
+    {
+    	return $this->help;
     }
 }

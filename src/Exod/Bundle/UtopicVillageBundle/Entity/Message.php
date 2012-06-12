@@ -3,6 +3,7 @@
 namespace Exod\Bundle\UtopicVillageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exod\Bundle\UtopicVillageBundle\Entity\User;
 
 /**
  * Exod\Bundle\UtopicVillageBundle\Entity\Message
@@ -48,6 +49,18 @@ class Message
      * @ORM\Column(name="already_read", type="boolean", nullable=false)
      */
     private $alreadyRead;
+    
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $sender;
+    
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $receiver;
 
 
     /**
@@ -138,5 +151,45 @@ class Message
     public function getAlreadyRead()
     {
         return $this->alreadyRead;
+    }
+    
+    /**
+     * Set sender
+     *
+     * @param User $sender
+     */
+    public function setSender($sender)
+    {
+    	$this->sender = $sender;
+    }
+    
+    /**
+     * Get sender
+     *
+     * @return User
+     */
+    public function getSender()
+    {
+    	return $this->sender;
+    }
+    
+    /**
+     * Set receiver
+     *
+     * @param User $receiver
+     */
+    public function setSender($receiver)
+    {
+    	$this->receiver = $receiver;
+    }
+    
+    /**
+     * Get receiver
+     *
+     * @return User
+     */
+    public function getReceiver()
+    {
+    	return $this->receiver;
     }
 }
