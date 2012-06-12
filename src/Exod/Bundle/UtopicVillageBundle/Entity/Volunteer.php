@@ -13,15 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Volunteer
 {
     /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var datetime $date
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
@@ -39,17 +30,6 @@ class Volunteer
      * @ORM\ManyToOne(targetEntity="Help")
      */
     private $help;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set date

@@ -14,15 +14,6 @@ use Exod\Bundle\UtopicVillageBundle\Entity\User;
 class Message
 {
     /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var text $body
      *
      * @ORM\Column(name="body", type="text", nullable=false)
@@ -61,17 +52,6 @@ class Message
      * @ORM\ManyToOne(targetEntity="User")
      */
     private $receiver;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set body
