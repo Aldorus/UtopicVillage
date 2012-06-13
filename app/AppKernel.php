@@ -1,5 +1,7 @@
 <?php
 
+use Sonata\jQueryBundle\SonatajQueryBundle;
+
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -18,11 +20,15 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Exod\Bundle\UtopicVillageBundle\ExodUtopicVillageBundle(),
+<<<<<<< HEAD
             new Sonata\AdminBundle\SonataAdminBundle(),
 	        new Sonata\BlockBundle\SonataBlockBundle(),
 	        new Sonata\CacheBundle\SonataCacheBundle(),
 	        new Sonata\jQueryBundle\SonatajQueryBundle(),
 	        new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+=======
+        	
+>>>>>>> 1b703dd1c95ee9299bf0f93b7458ac89e3a0ef59
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

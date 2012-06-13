@@ -91,4 +91,8 @@
 
 [Exporter]
     git=http://github.com/sonata-project/exporter.git
+<<<<<<< HEAD
     target=/exporter    
+=======
+    target=/exporter
+>>>>>>> 1b703dd1c95ee9299bf0f93b7458ac89e3a0ef59
