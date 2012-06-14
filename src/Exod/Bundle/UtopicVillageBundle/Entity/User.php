@@ -102,6 +102,16 @@ class User
     private $sanction;
 
     /**
+     * @ORM\Column(name="latitude", type="integer", nullable=false)
+     */
+    private $latitude;
+    
+    /**
+     * @ORM\Column(name="longitude", type="integer", nullable=false)
+     */
+    private $longitude;    
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -350,4 +360,59 @@ class User
     {
     	return $this->sanction;
     }
+    
+    /**
+     * Set latitude
+     *
+     * @param integer $latitude
+     */
+    public function setLatitude($latitude)
+    {
+    	$this->latitude = $latitude;
+    }
+    
+    /**
+     * Get latitude
+     *
+     * @return integer
+     */
+    public function getLatitude()
+    {
+    	return $this->latitude;
+    }
+    
+	/**
+     * Set longitude
+     *
+     * @param integer $longitude
+     */
+    public function setLongitude($longitude)
+    {
+    	$this->longitude = $longitude;
+    }
+    
+    /**
+     * Get longitude
+     *
+     * @return integer
+     */
+    public function getLongitude()
+    {
+    	return $this->longitude;
+    }
+    
+    public function toArray($bool=true){
+//    	return array(
+//    		'id'		=>
+//    		'active'		=>
+//	    	'birthdate'		=>
+//	    	'firstname'		=>
+//	    	'lastConnection'		=>
+//	    	'latitude'		=>
+//	    	'longitude'		=>
+//	    	'name'		=>
+//    	);
+    	return get_object_vars($this);
+    }
+    
 }

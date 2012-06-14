@@ -22,6 +22,7 @@
       <parameter key="SonataBlockBundle">Sonata\BlockBundle\SonataBlockBundle</parameter>
       <parameter key="SonataCacheBundle">Sonata\CacheBundle\SonataCacheBundle</parameter>
       <parameter key="SonatajQueryBundle">Sonata\jQueryBundle\SonatajQueryBundle</parameter>
+      <parameter key="SonataDoctrineORMAdminBundle">Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle</parameter>
       <parameter key="KnpMenuBundle">Knp\Bundle\MenuBundle\KnpMenuBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -420,6 +421,8 @@
     <parameter key="sonata.block.service.text.class">Sonata\BlockBundle\Block\Service\TextBlockService</parameter>
     <parameter key="sonata.block.service.action.class">Sonata\BlockBundle\Block\Service\ActionBlockService</parameter>
     <parameter key="sonata.block.service.rss.class">Sonata\BlockBundle\Block\Service\RssBlockService</parameter>
+    <parameter key="sonata.admin.manipulator.acl.object.orm.class">Sonata\DoctrineORMAdminBundle\Util\ObjectAclManipulator</parameter>
+    <parameter key="sonata_doctrine_orm_admin.entity_manager">null</parameter>
     <parameter key="knp_menu.factory.class">Knp\Menu\Silex\RouterAwareFactory</parameter>
     <parameter key="knp_menu.helper.class">Knp\Menu\Twig\Helper</parameter>
     <parameter key="knp_menu.menu_provider.chain.class">Knp\Menu\Provider\ChainProvider</parameter>
@@ -2199,6 +2202,33 @@
               <argument type="service">
                 <service class="%assetic.directory_resource.class%" public="false">
                   <argument type="service" id="templating.loader"/>
+                  <argument>SonataDoctrineORMAdminBundle</argument>
+                  <argument>/var/www/UtopicVillage/app/Resources/SonataDoctrineORMAdminBundle/views</argument>
+                  <argument>/^[^.]+\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SonataDoctrineORMAdminBundle</argument>
+                  <argument>/var/www/UtopicVillage/vendor/bundles/Sonata/DoctrineORMAdminBundle/Resources/views</argument>
+                  <argument>/^[^.]+\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
                   <argument>KnpMenuBundle</argument>
                   <argument>/var/www/UtopicVillage/app/Resources/KnpMenuBundle/views</argument>
                   <argument>/^[^.]+\.[^.]+\.twig$/</argument>
@@ -2440,7 +2470,18 @@
     </service>
     <service id="sonata.admin.builder.filter.factory" class="Sonata\AdminBundle\Filter\FilterFactory">
       <argument type="service" id="service_container"/>
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="doctrine_orm_boolean">sonata.admin.orm.filter.type.boolean</argument>
+        <argument key="doctrine_orm_callback">sonata.admin.orm.filter.type.callback</argument>
+        <argument key="doctrine_orm_choice">sonata.admin.orm.filter.type.choice</argument>
+        <argument key="doctrine_orm_model">sonata.admin.orm.filter.type.model</argument>
+        <argument key="doctrine_orm_string">sonata.admin.orm.filter.type.string</argument>
+        <argument key="doctrine_orm_number">sonata.admin.orm.filter.type.number</argument>
+        <argument key="doctrine_orm_date">sonata.admin.orm.filter.type.date</argument>
+        <argument key="doctrine_orm_date_range">sonata.admin.orm.filter.type.date_range</argument>
+        <argument key="doctrine_orm_datetime">sonata.admin.orm.filter.type.datetime</argument>
+        <argument key="doctrine_orm_datetime_range">sonata.admin.orm.filter.type.datetime_range</argument>
+      </argument>
     </service>
     <service id="sonata.admin.label.strategy.bc" class="Sonata\AdminBundle\Translator\BCLabelTranslatorStrategy"/>
     <service id="sonata.admin.label.strategy.native" class="Sonata\AdminBundle\Translator\NativeLabelTranslatorStrategy"/>
@@ -2602,6 +2643,10 @@
         <argument>sonata.block.service.rss</argument>
         <argument>sonata.block.service.rss</argument>
       </call>
+      <call method="add">
+        <argument>sonata.admin_doctrine_orm.block.audit</argument>
+        <argument>sonata.admin_doctrine_orm.block.audit</argument>
+      </call>
     </service>
     <service id="sonata.block.renderer" class="Sonata\BlockBundle\Block\BlockRenderer">
       <argument type="service" id="sonata.block.manager"/>
@@ -2653,6 +2698,120 @@
     <service id="sonata.cache.invalidation.simple" class="Sonata\CacheBundle\Invalidation\SimpleCacheInvalidation">
       <argument type="service" id="logger"/>
     </service>
+    <service id="sonata.admin.manager.orm" class="Sonata\DoctrineORMAdminBundle\Model\ModelManager">
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="sonata.admin.builder.orm_form" class="Sonata\DoctrineORMAdminBundle\Builder\FormContractor">
+      <argument type="service" id="form.factory"/>
+    </service>
+    <service id="sonata.admin.builder.orm_list" class="Sonata\DoctrineORMAdminBundle\Builder\ListBuilder">
+      <argument type="service" id="sonata.admin.guesser.orm_list_chain"/>
+      <argument type="collection">
+        <argument key="array">SonataAdminBundle:CRUD:list_array.html.twig</argument>
+        <argument key="boolean">SonataAdminBundle:CRUD:list_boolean.html.twig</argument>
+        <argument key="date">SonataAdminBundle:CRUD:list_date.html.twig</argument>
+        <argument key="time">SonataAdminBundle:CRUD:list_time.html.twig</argument>
+        <argument key="datetime">SonataAdminBundle:CRUD:list_datetime.html.twig</argument>
+        <argument key="text">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="trans">SonataAdminBundle:CRUD:list_trans.html.twig</argument>
+        <argument key="string">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="smallint">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="bigint">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="integer">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="decimal">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="identifier">SonataAdminBundle:CRUD:base_list_field.html.twig</argument>
+        <argument key="currency">SonataAdminBundle:CRUD:list_currency.html.twig</argument>
+        <argument key="percent">SonataAdminBundle:CRUD:list_percent.html.twig</argument>
+      </argument>
+    </service>
+    <service id="sonata.admin.guesser.orm_list" class="Sonata\DoctrineORMAdminBundle\Guesser\TypeGuesser">
+      <tag name="sonata.admin.guesser.orm_list"/>
+    </service>
+    <service id="sonata.admin.guesser.orm_list_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+      <argument type="collection">
+        <argument type="service" id="sonata.admin.guesser.orm_list"/>
+      </argument>
+    </service>
+    <service id="sonata.admin.builder.orm_show" class="Sonata\DoctrineORMAdminBundle\Builder\ShowBuilder">
+      <argument type="service" id="sonata.admin.guesser.orm_show_chain"/>
+      <argument type="collection">
+        <argument key="array">SonataAdminBundle:CRUD:show_array.html.twig</argument>
+        <argument key="boolean">SonataAdminBundle:CRUD:show_boolean.html.twig</argument>
+        <argument key="date">SonataAdminBundle:CRUD:show_date.html.twig</argument>
+        <argument key="time">SonataAdminBundle:CRUD:show_time.html.twig</argument>
+        <argument key="datetime">SonataAdminBundle:CRUD:show_datetime.html.twig</argument>
+        <argument key="text">SonataAdminBundle:CRUD:base_show_field.html.twig</argument>
+        <argument key="trans">SonataAdminBundle:CRUD:show_trans.html.twig</argument>
+        <argument key="string">SonataAdminBundle:CRUD:base_show_field.html.twig</argument>
+        <argument key="smallint">SonataAdminBundle:CRUD:base_show_field.html.twig</argument>
+        <argument key="bigint">SonataAdminBundle:CRUD:base_show_field.html.twig</argument>
+        <argument key="integer">SonataAdminBundle:CRUD:base_show_field.html.twig</argument>
+        <argument key="decimal">SonataAdminBundle:CRUD:base_show_field.html.twig</argument>
+        <argument key="currency">SonataAdminBundle:CRUD:base_currency.html.twig</argument>
+        <argument key="percent">SonataAdminBundle:CRUD:base_percent.html.twig</argument>
+      </argument>
+    </service>
+    <service id="sonata.admin.guesser.orm_show" class="Sonata\DoctrineORMAdminBundle\Guesser\TypeGuesser">
+      <tag name="sonata.admin.guesser.orm_show"/>
+    </service>
+    <service id="sonata.admin.guesser.orm_show_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+      <argument type="collection">
+        <argument type="service" id="sonata.admin.guesser.orm_show"/>
+      </argument>
+    </service>
+    <service id="sonata.admin.builder.orm_datagrid" class="Sonata\DoctrineORMAdminBundle\Builder\DatagridBuilder">
+      <argument type="service" id="form.factory"/>
+      <argument type="service" id="sonata.admin.builder.filter.factory"/>
+      <argument type="service" id="sonata.admin.guesser.orm_datagrid_chain"/>
+    </service>
+    <service id="sonata.admin.guesser.orm_datagrid" class="Sonata\DoctrineORMAdminBundle\Guesser\FilterTypeGuesser">
+      <tag name="sonata.admin.guesser.orm_datagrid"/>
+    </service>
+    <service id="sonata.admin.guesser.orm_datagrid_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+      <argument type="collection">
+        <argument type="service" id="sonata.admin.guesser.orm_datagrid"/>
+      </argument>
+    </service>
+    <service id="sonata.admin.orm.filter.type.boolean" class="Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_boolean"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.callback" class="Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_callback"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.choice" class="Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_choice"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.model" class="Sonata\DoctrineORMAdminBundle\Filter\ModelFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_model"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.string" class="Sonata\DoctrineORMAdminBundle\Filter\StringFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_string"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.number" class="Sonata\DoctrineORMAdminBundle\Filter\NumberFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_number"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.date" class="Sonata\DoctrineORMAdminBundle\Filter\DateFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_date"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.date_range" class="Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_date_range"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.datetime" class="Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_datetime"/>
+    </service>
+    <service id="sonata.admin.orm.filter.type.datetime_range" class="Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter" scope="prototype">
+      <tag name="sonata.admin.filter.type" alias="doctrine_orm_datetime_range"/>
+    </service>
+    <service id="sonata.admin.audit.orm.reader" class="Sonata\DoctrineORMAdminBundle\Model\AuditReader">
+      <argument>null</argument>
+    </service>
+    <service id="sonata.admin_doctrine_orm.block.audit" class="Sonata\DoctrineORMAdminBundle\Block\AuditBlockService">
+      <tag name="sonata.block"/>
+      <argument>sonata.admin_doctrine_orm.block.audit</argument>
+      <argument type="service" id="templating"/>
+      <argument>null</argument>
+    </service>
+    <service id="sonata.admin.manipulator.acl.object.orm" class="Sonata\DoctrineORMAdminBundle\Util\ObjectAclManipulator"/>
     <service id="knp_menu.factory" class="Knp\Menu\Silex\RouterAwareFactory">
       <argument type="service" id="router"/>
     </service>

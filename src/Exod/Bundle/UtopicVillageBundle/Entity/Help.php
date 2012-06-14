@@ -58,7 +58,7 @@ class Help
     private $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $user;
     
@@ -190,5 +190,21 @@ class Help
     public function getUser()
     {
     	return $this->user;
+    }
+    
+    public function toArray($bool=true){
+//    	return array(
+//        	"id"			=>	$help->getId(),
+//        	"active"		=>	$help->getActive(),
+//        	"amount"		=>	$help->getAmount(),
+//        	"description"	=>	utf8_encode($help->getDescription()),
+//        	"reproducible"	=>	$help->getReproducible(),
+//        	"user"			=>	$help->getUser()->toArray(),
+//        	"report"		=>	$help->getReport()
+//        );
+		if($bool){
+    		$this->user = $this->user->toArray();
+		}
+		return get_object_vars($this);
     }
 }
