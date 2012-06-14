@@ -1,6 +1,6 @@
 <?php
 
-namespace Exod\Bundle\UtopicVillageBundle\Entity;
+namespace Exod\Bundle\UtopicVillageBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

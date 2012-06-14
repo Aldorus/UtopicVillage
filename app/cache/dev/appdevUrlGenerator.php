@@ -23,6 +23,15 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        '_configurator_home' => true,
        '_configurator_step' => true,
        '_configurator_final' => true,
+       'help' => true,
+       'insertHelp' => true,
+       'role' => true,
+       'role_show' => true,
+       'role_new' => true,
+       'role_create' => true,
+       'role_edit' => true,
+       'role_update' => true,
+       'role_delete' => true,
     );
 
     /**
@@ -94,5 +103,50 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function get_configurator_finalRouteInfo()
     {
         return array(array (), array (  '_controller' => 'Sensio\\Bundle\\DistributionBundle\\Controller\\ConfiguratorController::finalAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/_configurator/final',  ),));
+    }
+
+    private function gethelpRouteInfo()
+    {
+        return array(array (  0 => 'id',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::helpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/help',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getinsertHelpRouteInfo()
+    {
+        return array(array (  0 => 'idUser',  1 => 'amount',  2 => 'text',  3 => 'reproducible',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'reproducible',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'text',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'amount',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  5 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getroleRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/role/',  ),));
+    }
+
+    private function getrole_showRouteInfo()
+    {
+        return array(array (  0 => 'id',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::showAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/show',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/role',  ),));
+    }
+
+    private function getrole_newRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::newAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/role/new',  ),));
+    }
+
+    private function getrole_createRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::createAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/role/create',  ),));
+    }
+
+    private function getrole_editRouteInfo()
+    {
+        return array(array (  0 => 'id',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::editAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/edit',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/role',  ),));
+    }
+
+    private function getrole_updateRouteInfo()
+    {
+        return array(array (  0 => 'id',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::updateAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/update',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/role',  ),));
+    }
+
+    private function getrole_deleteRouteInfo()
+    {
+        return array(array (  0 => 'id',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\RoleController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/role',  ),));
     }
 }
