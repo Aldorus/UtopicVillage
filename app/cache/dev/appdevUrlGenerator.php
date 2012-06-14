@@ -25,6 +25,9 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        '_configurator_final' => true,
        'help' => true,
        'insertHelp' => true,
+       'testConnect' => true,
+       'savePosition' => true,
+       'insertUser' => true,
        'role' => true,
        'role_show' => true,
        'role_new' => true,
@@ -113,6 +116,21 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getinsertHelpRouteInfo()
     {
         return array(array (  0 => 'idUser',  1 => 'amount',  2 => 'text',  3 => 'reproducible',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'reproducible',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'text',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'amount',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  5 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function gettestConnectRouteInfo()
+    {
+        return array(array (  0 => 'email',  1 => 'password',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::testConnectAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/testConnect',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'password',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'email',  ),  3 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getsavePositionRouteInfo()
+    {
+        return array(array (  0 => 'idUser',  1 => 'lat',  2 => 'long',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::savePositionAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/savePosition',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'long',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'lat',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  4 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getinsertUserRouteInfo()
+    {
+        return array(array (  0 => 'login',  1 => 'password',  2 => 'birthdate',  3 => 'email',  4 => 'name',  5 => 'firstname',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertJoueurAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertUser',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'firstname',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'email',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'birthdate',  ),  5 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'password',  ),  6 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'login',  ),  7 =>   array (    0 => 'text',    1 => '/json',  ),));
     }
 
     private function getroleRouteInfo()

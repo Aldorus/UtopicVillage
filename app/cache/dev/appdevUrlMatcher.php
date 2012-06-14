@@ -95,7 +95,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // testConnect
-        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<login>[^/]+?)/(?P<password>[^/]+?)/testConnect$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<email>[^/]+?)/(?P<password>[^/]+?)/testConnect$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::testConnectAction',)), array('_route' => 'testConnect'));
         }
 

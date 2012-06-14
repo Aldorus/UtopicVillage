@@ -66,11 +66,11 @@ class JSONController extends Controller
     
     /**
      * Test de Connection
-     * @Route("/{login}/{password}/testConnect", name="testConnect")
+     * @Route("/{email}/{password}/testConnect", name="testConnect")
      */
-    public function testConnectAction($login,$password){
+    public function testConnectAction($email,$password){
     	$repository = $this->getDoctrine()->getRepository('ExodUtopicVillageBundle:User');
-    	$user = $repository->testConnect($login,$password);
+    	$user = $repository->testConnect($email,$password);
     	
     	$responseJSON;
     	if($user !=null){

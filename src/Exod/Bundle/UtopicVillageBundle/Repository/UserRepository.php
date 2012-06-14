@@ -12,14 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-	public function testConnect($login,$password){
+	public function testConnect($email,$password){
 		$em = $this->getEntityManager();
 		
 		//test d'une connection
 		$query = $em
-			->createQuery('SELECT u FROM ExodUtopicVillageBundle:User u WHERE u.login=:login AND u.password=:password AND u.active=1')
+			->createQuery('SELECT u FROM ExodUtopicVillageBundle:User u WHERE u.email=:email AND u.password=:password AND u.active=1')
 			->setParameter('password',$password)
-			->setParameter('login',$login);
+			->setParameter('email',$email);
 		
 		if(sizeof($query->getResult())>0){
 			return $query->getSingleResult();
