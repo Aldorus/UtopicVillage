@@ -94,6 +94,21 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertHelpAction',)), array('_route' => 'insertHelp'));
         }
 
+        // testConnect
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<login>[^/]+?)/(?P<password>[^/]+?)/testConnect$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::testConnectAction',)), array('_route' => 'testConnect'));
+        }
+
+        // savePosition
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<idUser>[^/]+?)/(?P<lat>[^/]+?)/(?P<long>[^/]+?)/savePosition$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::savePositionAction',)), array('_route' => 'savePosition'));
+        }
+
+        // insertUser
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<login>[^/]+?)/(?P<password>[^/]+?)/(?P<birthdate>[^/]+?)/(?P<email>[^/]+?)/(?P<name>[^/]+?)/(?P<firstname>[^/]+?)/insertUser$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertJoueurAction',)), array('_route' => 'insertUser'));
+        }
+
         // role
         if (rtrim($pathinfo, '/') === '/role') {
             if (substr($pathinfo, -1) !== '/') {

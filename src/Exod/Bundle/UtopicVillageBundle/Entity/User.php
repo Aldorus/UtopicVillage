@@ -62,6 +62,13 @@ class User
      * @ORM\Column(name="birthdate", type="date", nullable=false)
      */
     private $birthdate;
+    
+    /**
+     * @var date $email
+     *
+     * @ORM\Column(name="email", type="string", nullable=false)
+     */
+    private $email;
 
     /**
      * @var date $lastConnection
@@ -80,7 +87,7 @@ class User
     /**
      * @var boolean $report
      *
-     * @ORM\Column(name="report", type="boolean", nullable=false)
+     * @ORM\Column(name="report", type="boolean", nullable=true)
      */
     private $report;
     
@@ -100,6 +107,11 @@ class User
      * @ORM\OneToOne(targetEntity="Sanction")
      */
     private $sanction;
+    
+    /**
+     * @ORM\Column(name="date_sanction", type="date", nullable=true)
+     */
+    private $dateSanction;
 
     /**
      * @ORM\Column(name="latitude", type="integer", nullable=false)
@@ -242,6 +254,26 @@ class User
     }
 
     /**
+     * Set email
+     *
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+    	$this->email = $email;
+    }
+    
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+    	return $this->email;
+    }
+    
+    /**
      * Set lastConnection
      *
      * @param date $lastConnection
@@ -359,6 +391,26 @@ class User
     public function getSanction()
     {
     	return $this->sanction;
+    }
+    
+    /**
+     * Set dateSanction
+     *
+     * @param date $dateSanction
+     */
+    public function setDateSanction($dateSanction)
+    {
+    	$this->dateSanction = $dateSanction;
+    }
+    
+    /**
+     * Get dateSanction
+     *
+     * @return date
+     */
+    public function getDateSanction()
+    {
+    	return $this->dateSanction;
     }
     
     /**

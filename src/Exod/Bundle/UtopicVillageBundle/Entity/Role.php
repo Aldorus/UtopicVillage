@@ -22,11 +22,11 @@ class Role
     private $id;
 
     /**
-     * @var string $idFonctionel
+     * @var string $idFonctionnel
      *
-     * @ORM\Column(name="id_fonctionel", type="string", length=100, unique=true, nullable=false)
+     * @ORM\Column(name="id_fonctionnel", type="string", length=100, unique=true, nullable=false)
      */
-    private $idFonctionel;
+    private $idFonctionnel;
 
 
     /**
@@ -40,22 +40,22 @@ class Role
     }
 
     /**
-     * Set idFonctionel
+     * Set idFonctionnel
      *
-     * @param string $idFonctionel
+     * @param string $idFonctionnel
      */
-    public function setIdFonctionel($idFonctionel)
+    public function setIdFonctionnel($idFonctionnel)
     {
-        $this->idFonctionel = $idFonctionel;
+        $this->idFonctionnel = $idFonctionnel;
     }
 
     /**
-     * Get id_fonctionel
+     * Get id_fonctionnel
      *
      * @return string 
      */
-    public function getIdFonctionel()
+    public function getIdFonctionnel()
     {
-        return $this->idFonctionel;
+        return $this->idFonctionnel;
     }
 }

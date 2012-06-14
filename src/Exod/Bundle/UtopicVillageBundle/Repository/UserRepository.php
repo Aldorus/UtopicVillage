@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+	public function testConnect($login,$password){
+		$em = $this->getEntityManager();
+		
+		//test d'une connection
+		$query = $em
+			->createQuery('SELECT u FROM ExodUtopicVillageBundle:User u WHERE u.login=:login AND u.password=:password AND u.active=1')
+			->setParameter('password',$password)
+			->setParameter('login',$login);
+		
+		if(sizeof($query->getResult())>0){
+			return $query->getSingleResult();
+		}else{
+			return null;
+		}
+	
+		//test de la date de sanction
+		//TODO		
+	} 
 }
