@@ -12,4 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class VolunteerRepository extends EntityRepository
 {
+	public function deleteAllUserForOneHelp($idHelp){
+		$query = $this
+			->createQueryBuilder('v')
+			->delete()
+			->where('v.help=:idHelp')
+			->setParameter('idHelp', $idHelp)
+			->getQuery();
+		$query->execute();
+	}
 }

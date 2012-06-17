@@ -2,6 +2,8 @@
 
 namespace Exod\Bundle\UtopicVillageBundle\Repository;
 
+use Exod\Bundle\UtopicVillageBundle\Constante\Constante;
+
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +14,40 @@ use Doctrine\ORM\EntityRepository;
  */
 class HelpRepository extends EntityRepository
 {
+	
+	public function getYourAskingHelp($idUser){
+		$em = $this->getEntityManager();
+		//on recupere les demande d'aide encore active pour le joueur
+		$query = $em
+			->createQuery('SELECT h FROM ExodUtopicVillageBundle:Help h WHERE h.user=:idUser AND h.active=1')
+			->setParameter('idUser', $idUser);
+		
+		if(sizeof($query->getResult())>0){
+			return $query->getSingleResult();
+		}else{
+			return null;
+		}
+	}
+	
+	public function getNearHelp($userId, $latitude, $longitude){
+		//on recupere les demnde d'aide situé à moins de X de distance
+		//qui sont active et dont le demandeur est actif (aucun risque n'est pris)
+		//puis on elimine le resultat de l'user en cours si il existe
+		$query = $this
+			->createQueryBuilder('h')
+			->leftJoin('h.user', 'u')
+			->where('h.user<>:userId')
+			->andWhere('u.latitude>:limitLatLow')
+			->andWhere('u.latitude<:limitLatHigh')
+			->andWhere('u.longitude>:limitLongLow')
+			->andWhere('u.longitude<:limitLongHigh')
+			->andWhere('h.active=1')
+			->setParameter("limitLatLow", $latitude-Constante::DISTANCE_LATITUDE)
+			->setParameter("limitLatHigh", $latitude+Constante::DISTANCE_LATITUDE)
+			->setParameter("limitLongLow", $longitude-Constante::DISTANCE_LONGITUDE)
+			->setParameter("limitLongHigh", $longitude+Constante::DISTANCE_LONGITUDE)
+			->setParameter("userId", $userId)
+			->getQuery();
+		return $query->getResult();
+	}
 }

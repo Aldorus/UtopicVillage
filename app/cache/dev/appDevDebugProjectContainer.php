@@ -2419,7 +2419,7 @@ class appDevDebugProjectContainer extends Container
             'assetic.enable_profiler' => false,
             'assetic.read_from' => 'C:/wamp/www/UtopicVillage/app/../web',
             'assetic.write_to' => 'C:/wamp/www/UtopicVillage/app/../web',
-            'assetic.java.bin' => 'c:\\WINDOWS\\system32\\java.EXE',
+            'assetic.java.bin' => 'C:\\WINDOWS\\system32\\java.EXE',
             'assetic.node.bin' => '/usr/bin/node',
             'assetic.sass.bin' => '/usr/bin/sass',
             'assetic.filter.cssrewrite.class' => 'Assetic\\Filter\\CssRewriteFilter',

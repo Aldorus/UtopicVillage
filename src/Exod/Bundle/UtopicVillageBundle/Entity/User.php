@@ -80,7 +80,7 @@ class User
     /**
      * @var string $picture
      *
-     * @ORM\Column(name="picture", type="string", length=100)
+     * @ORM\Column(name="picture", type="string", length=100, nullable=true)
      */
     private $picture;
     
@@ -99,12 +99,12 @@ class User
     private $active;
     
     /**
-     * @ORM\OneToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="Role")
      */
     private $role;
     
     /**
-     * @ORM\OneToOne(targetEntity="Sanction")
+     * @ORM\ManyToOne(targetEntity="Sanction")
      */
     private $sanction;
     
@@ -114,14 +114,24 @@ class User
     private $dateSanction;
 
     /**
-     * @ORM\Column(name="latitude", type="integer", nullable=false)
+     * @ORM\Column(name="latitude", type="float", nullable=false)
      */
     private $latitude;
     
     /**
-     * @ORM\Column(name="longitude", type="integer", nullable=false)
+     * @ORM\Column(name="longitude", type="float", nullable=false)
      */
-    private $longitude;    
+    private $longitude;  
+
+    /**
+     * @ORM\Column(name="amount", type="integer", nullable=false)
+     */
+    private $amount;
+    
+    /**
+     * @ORM\Column(name="commentaire", type="string", nullable=true)
+     */
+    private $commentaire;
     
     /**
      * Get id
@@ -436,7 +446,7 @@ class User
 	/**
      * Set longitude
      *
-     * @param integer $longitude
+     * @param float $longitude
      */
     public function setLongitude($longitude)
     {
@@ -446,11 +456,51 @@ class User
     /**
      * Get longitude
      *
-     * @return integer
+     * @return float
      */
     public function getLongitude()
     {
     	return $this->longitude;
+    }
+    
+    /**
+     * Set amount
+     *
+     * @param integer $amount
+     */
+    public function setAmount($amount)
+    {
+    	$this->amount = $amount;
+    }
+    
+    /**
+     * Get amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+    	return $this->$amount;
+    }
+    
+    /**
+     * Set description
+     *
+     * @param String $description
+     */
+    public function setDescription($description)
+    {
+    	$this->description = $description;
+    }
+    
+    /**
+     * Get description
+     *
+     * @return String
+     */
+    public function getDescription()
+    {
+    	return $this->description;
     }
     
     public function toArray($bool=true){
@@ -464,7 +514,10 @@ class User
 //	    	'longitude'		=>
 //	    	'name'		=>
 //    	);
-    	return get_object_vars($this);
+
+    	$arrayReturn = get_object_vars($this);
+    	$arrayReturn['status'] = 'ok';
+    	return $arrayReturn;
     }
     
 }

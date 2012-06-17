@@ -28,6 +28,13 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'testConnect' => true,
        'savePosition' => true,
        'insertUser' => true,
+       'yourAskingHelp' => true,
+       'getNearAskingHelp' => true,
+       'insetNewVolunteer' => true,
+       'deleteHelp' => true,
+       'reportHelp' => true,
+       'getVolunteer' => true,
+       'insertParticipant' => true,
        'role' => true,
        'role_show' => true,
        'role_new' => true,
@@ -131,6 +138,41 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getinsertUserRouteInfo()
     {
         return array(array (  0 => 'login',  1 => 'password',  2 => 'birthdate',  3 => 'email',  4 => 'name',  5 => 'firstname',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertJoueurAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertUser',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'firstname',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'email',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'birthdate',  ),  5 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'password',  ),  6 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'login',  ),  7 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getyourAskingHelpRouteInfo()
+    {
+        return array(array (  0 => 'idUser',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::youAskingHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/askingHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getgetNearAskingHelpRouteInfo()
+    {
+        return array(array (  0 => 'userId',  1 => 'latitude',  2 => 'longitude',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getNearAskingHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/getNearAskingHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'longitude',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'latitude',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'userId',  ),  4 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getinsetNewVolunteerRouteInfo()
+    {
+        return array(array (  0 => 'idUser',  1 => 'idHelp',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::inertNewVolunteerAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertNewVolunteer',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idHelp',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  3 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getdeleteHelpRouteInfo()
+    {
+        return array(array (  0 => 'idHelp',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::deleteHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/deleteHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idHelp',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getreportHelpRouteInfo()
+    {
+        return array(array (  0 => 'idHelp',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::reportHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/reportHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idHelp',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getgetVolunteerRouteInfo()
+    {
+        return array(array (  0 => 'idHelp',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getVolunteer',), array (), array (  0 =>   array (    0 => 'text',    1 => '/getVolunteer',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idHelp',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getinsertParticipantRouteInfo()
+    {
+        return array(array (  0 => 'idHelp',  1 => 'idUser',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertParticipant',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertParticipant',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idHelp',  ),  3 =>   array (    0 => 'text',    1 => '/json',  ),));
     }
 
     private function getroleRouteInfo()

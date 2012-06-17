@@ -2,6 +2,10 @@
 
 namespace Exod\Bundle\UtopicVillageBundle\Entity;
 
+use Doctrine\ORM\Mapping\Column;
+
+use Doctrine\ORM\Mapping\JoinColumn;
+
 use Doctrine\ORM\Mapping as ORM;
 use Exod\Bundle\UtopicVillageBundle\Entity\User;
 
@@ -58,9 +62,23 @@ class Help
     private $active;
 
     /**
+     * @var datetime $date
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=false)
+     */
+    private $date;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @JoinColumn(name="participant_id", referencedColumnName="id")
+     */
+    private $participant;
     
     /**
      * Get id
@@ -192,19 +210,54 @@ class Help
     	return $this->user;
     }
     
+    /**
+     * Set user
+     *
+     * @param User $user
+     */
+    public function setParticipant($participant)
+    {
+    	$this->participant = $participant;
+    }
+    
+    /**
+     * Get participant
+     *
+     * @return User
+     */
+    public function getParticipant()
+    {
+    	return $this->participant;
+    }
+    
+    /**
+     * Set date
+     *
+     * @param datetime $date
+     */
+    public function setDate($date)
+    {
+    	$this->date = $date;
+    }
+    
+    /**
+     * Get date
+     *
+     * @return datetime
+     */
+    public function getDate()
+    {
+    	return $this->date;
+    }
+    
     public function toArray($bool=true){
-//    	return array(
-//        	"id"			=>	$help->getId(),
-//        	"active"		=>	$help->getActive(),
-//        	"amount"		=>	$help->getAmount(),
-//        	"description"	=>	utf8_encode($help->getDescription()),
-//        	"reproducible"	=>	$help->getReproducible(),
-//        	"user"			=>	$help->getUser()->toArray(),
-//        	"report"		=>	$help->getReport()
-//        );
 		if($bool){
     		$this->user = $this->user->toArray();
 		}
-		return get_object_vars($this);
+		$this->participant = $this->participant->toArray();
+		
+		$arrayReturn = get_object_vars($this);
+		$arrayReturn['status'] = 'ok';
+		return $arrayReturn;
     }
 }
