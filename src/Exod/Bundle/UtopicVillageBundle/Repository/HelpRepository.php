@@ -50,4 +50,20 @@ class HelpRepository extends EntityRepository
 			->getQuery();
 		return $query->getResult();
 	}
+	
+	public function fuckingLazyORM($helpId){
+		$query = $this
+			->createQueryBuilder('h')
+			->leftJoin('h.user', 'u')
+			->leftJoin('h.participant', 'p')
+			->where('h.id=:idHelp')
+			->setParameter('idHelp', $helpId)
+			->getQuery();
+		
+		if(sizeof($query->getResult())>0){
+			return $query->getSingleResult();
+		}else{
+			return null;
+		}
+	}
 }

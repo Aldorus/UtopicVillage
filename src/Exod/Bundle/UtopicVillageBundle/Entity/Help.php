@@ -17,6 +17,11 @@ use Exod\Bundle\UtopicVillageBundle\Entity\User;
  */
 class Help
 {
+	public function __construct(){
+		$this->setPayed(0);
+		$this->setNotified(0);
+		$this->setReceived(0);
+	}
     /**
      * @var integer $id
      *
@@ -61,6 +66,27 @@ class Help
      */
     private $active;
 
+    /**
+     * @var boolean $payed
+     *
+     * @ORM\Column(name="payed", type="boolean", nullable=false)
+     */
+    private $payed;
+    
+    /**
+     * @var boolean $received
+     *
+     * @ORM\Column(name="received", type="boolean", nullable=false)
+     */
+    private $received;
+    
+    /**
+     * @var boolean $notified
+     *
+     * @ORM\Column(name="notified", type="boolean", nullable=false)
+     */
+    private $notified;
+    
     /**
      * @var datetime $date
      *
@@ -191,6 +217,66 @@ class Help
     }
     
     /**
+     * Set payed
+     *
+     * @param boolean $payed
+     */
+    public function setPayed($payed)
+    {
+    	$this->payed = $payed;
+    }
+    
+    /**
+     * Get payed
+     *
+     * @return boolean
+     */
+    public function getPayed()
+    {
+    	return $this->payed;
+    }
+    
+    /**
+     * Set received
+     *
+     * @param boolean $received
+     */
+    public function setReceived($received)
+    {
+    	$this->received = $received;
+    }
+    
+    /**
+     * Get received
+     *
+     * @return boolean
+     */
+    public function getReceived()
+    {
+    	return $this->received;
+    }
+    
+    /**
+     * Set notified
+     *
+     * @param boolean notified
+     */
+    public function setNotified($notified)
+    {
+    	$this->notified = $notified;
+    }
+    
+    /**
+     * Get notified
+     *
+     * @return boolean
+     */
+    public function getNotified()
+    {
+    	return $this->notified;
+    }
+    
+    /**
      * Set user
      *
      * @param User $user
@@ -211,9 +297,9 @@ class Help
     }
     
     /**
-     * Set user
+     * Set participant
      *
-     * @param User $user
+     * @param User $participant
      */
     public function setParticipant($participant)
     {
@@ -254,7 +340,11 @@ class Help
 		if($bool){
     		$this->user = $this->user->toArray();
 		}
-		$this->participant = $this->participant->toArray();
+		if($this->participant){
+			$this->participant = $this->participant->toArray();
+		}else{
+			
+		}
 		
 		$arrayReturn = get_object_vars($this);
 		$arrayReturn['status'] = 'ok';

@@ -105,7 +105,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // insertUser
-        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<login>[^/]+?)/(?P<password>[^/]+?)/(?P<birthdate>[^/]+?)/(?P<email>[^/]+?)/(?P<name>[^/]+?)/(?P<firstname>[^/]+?)/insertUser$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<login>[^/]+?)/(?P<password>[^/]+?)/(?P<birthdate>[^/]+?)/(?P<email>[^/]+?)/(?P<name>[^/]+?)/(?P<firstname>[^/]+?)/(?P<description>[^/]+?)/insertUser$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertJoueurAction',)), array('_route' => 'insertUser'));
         }
 
@@ -141,7 +141,22 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         // insertParticipant
         if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<idHelp>[^/]+?)/(?P<idUser>[^/]+?)/insertParticipant$#s', $pathinfo, $matches)) {
-            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertParticipant',)), array('_route' => 'insertParticipant'));
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertParticipantAction',)), array('_route' => 'insertParticipant'));
+        }
+
+        // pay
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<helpId>[^/]+?)/pay$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::payAction',)), array('_route' => 'pay'));
+        }
+
+        // helpWhereYouVolunteer
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<userId>[^/]+?)/helpWhereYouVolunteer$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::helpWhereYouVolunteeerAction',)), array('_route' => 'helpWhereYouVolunteer'));
+        }
+
+        // helpWhereYouParticipant
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<userId>[^/]+?)/helpWhereYouParticipant$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::helpWhereYouParticipantAction',)), array('_route' => 'helpWhereYouParticipant'));
         }
 
         // role

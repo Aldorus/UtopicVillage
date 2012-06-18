@@ -12,12 +12,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Volunteer
 {
+	function __construct(){
+		$this->active=1;
+	}
     /**
      * @var datetime $date
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
+    
+    /**
+     * @var boolean $active
+     *
+     * @ORM\Column(name="active", type="boolean", nullable=false)
+     */
+    private $active;
     
     /**
      * @ORM\Id
@@ -49,6 +59,26 @@ class Volunteer
     public function getDate()
     {
         return $this->date;
+    }
+    
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     */
+    public function setActive($date)
+    {
+    	$this->active = $active;
+    }
+    
+    /**
+     * Get active
+     *
+     * @return booblean
+     */
+    public function getActive()
+    {
+    	return $this->active;
     }
     
     /**

@@ -107,9 +107,9 @@ class JSONController extends Controller
     
     /**
      * new player
-     * @Route("/{login}/{password}/{birthdate}/{email}/{name}/{firstname}/insertUser",name="insertUser")
+     * @Route("/{login}/{password}/{birthdate}/{email}/{name}/{firstname}/{description}/insertUser",name="insertUser")
      */
-    public function insertJoueurAction($login,$password,$birthdate,$email,$name,$firstname){
+    public function insertJoueurAction($login,$password,$birthdate,$email,$name,$firstname,$description){
     	$em = $this->getDoctrine()->getEntityManager();
     	
     	//recuperation du role joueur
@@ -131,6 +131,7 @@ class JSONController extends Controller
     	$user->setLatitude(0);
     	$user->setLongitude(0);
     	$user->setLastConnection(new \DateTime());
+    	$user->setDescription($description);
     	
     	$em->persist($user);
     	$em->flush();
@@ -212,13 +213,22 @@ class JSONController extends Controller
      */
     public function deleteHelpAction($idHelp){
     	$em = $this->getDoctrine()->getEntityManager();
+    	 
+    	//on desactive aussi tous les volontaires
+    	$em->getRepository('ExodUtopicVillageBundle:Volunteer')->deleteAllUserForOneHelp($idHelp);
+
     	//On recupere l'aide en question
     	$help = $em->getRepository('ExodUtopicVillageBundle:Help')->find($idHelp);
-    	$help->setActive(0);
-    	$em->persist($help);
-    	$em->flush();
-    	
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON;
+    	if($help){
+	    	$help->setActive(0);
+	    	$em->persist($help);
+	    	$em->flush();
+	    	
+	    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	}else{
+    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    	}
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -262,7 +272,7 @@ class JSONController extends Controller
      * insertion d'un participant et suppression des volontaires 
      * @Route("/{idHelp}/{idUser}/insertParticipant", name="insertParticipant")
      */
-    public function insertParticipant($idHelp, $idUser){
+    public function insertParticipantAction($idHelp, $idUser){
     	$em = $this->getDoctrine()->getEntityManager();
     	$help = $em->getRepository('ExodUtopicVillageBundle:Help')->find($idHelp);
     	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($idUser);
@@ -273,6 +283,76 @@ class JSONController extends Controller
     	$em->persist($help);
     	$em->flush();
     	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * payer le joueur
+     * @Route("/{helpId}/pay", name="pay")
+     */
+    public function payAction($helpId){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	//On recupere l'aide en question
+    	$help = $em->getRepository('ExodUtopicVillageBundle:Help')->find($helpId);
+    	$responseJSON;
+    	//on recupere les deux joueurs
+    	if($help){
+    		$asker = $help->getUser();
+    		$receiver = $help->getParticipant();
+    		if($asker && $receiver){
+	    		$asker->setAmount($asker->getAmount()-$help->getAmount());
+		    	$em->persist($asker);
+		    	$em->flush();
+		    	
+		    	$receiver->setAmount($receiver->getAmount()+$help->getAmount());
+		    	$em->persist($receiver);
+		    	$em->flush();
+		    	
+		    	$help->setActive(0);
+		    	$help->setPayed(1);
+		    	$em->persist($help);
+		    	$em->flush();
+		    	 
+		    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    		}else{
+    			$responseJSON = new Response(json_encode(array("status" => "nook")));
+    		}
+    	}else{
+    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    	}
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * On recupere les aide ou on est volontaire
+     * @Route("/{userId}/helpWhereYouVolunteer", name="helpWhereYouVolunteer")
+     */
+    public function helpWhereYouVolunteeerAction($userId){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$volunteers = $em->getRepository('ExodUtopicVillageBundle:Volunteer')->findByUser($userId);
+    	$arrayHelp = array();
+    	foreach ($volunteers as $volunteer){
+    		$arrayHelp[]=$volunteer->getHelp()->toArray();
+    	}
+    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * On recupere les aide ou on est participant
+     * @Route("/{userId}/helpWhereYouParticipant", name="helpWhereYouParticipant")
+     */
+    public function helpWhereYouParticipantAction($userId){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$helps = $em->getRepository('ExodUtopicVillageBundle:Help')->findByParticipant($userId);
+    	$arrayHelp = array();
+    	foreach ($helps as $help){
+    		$arrayHelp[]=$help->toArray();
+    	}
+    	$responseJSON = new Response(json_encode($arrayHelp));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }

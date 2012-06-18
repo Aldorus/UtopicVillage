@@ -15,8 +15,10 @@ class VolunteerRepository extends EntityRepository
 	public function deleteAllUserForOneHelp($idHelp){
 		$query = $this
 			->createQueryBuilder('v')
-			->delete()
+			->update()
+			->set('v.active',0)
 			->where('v.help=:idHelp')
+			->andWhere('v.active=1')
 			->setParameter('idHelp', $idHelp)
 			->getQuery();
 		$query->execute();

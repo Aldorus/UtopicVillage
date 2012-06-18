@@ -22,13 +22,6 @@ class User
     private $id;
 
     /**
-     * @var string $login
-     *
-     * @ORM\Column(name="login", type="string", length=100, unique=true, nullable=false	)
-     */
-    private $login;
-
-    /**
      * @var string $password
      *
      * @ORM\Column(name="password", type="string", length=100, nullable=false)
@@ -141,26 +134,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set login
-     *
-     * @param string $login
-     */
-    public function setLogin($login)
-    {
-        $this->login = $login;
-    }
-
-    /**
-     * Get login
-     *
-     * @return string 
-     */
-    public function getLogin()
-    {
-        return $this->login;
     }
 
     /**
@@ -465,7 +438,7 @@ class User
     
     /**
      * Set amount
-     *
+	 *
      * @param integer $amount
      */
     public function setAmount($amount)
@@ -480,7 +453,7 @@ class User
      */
     public function getAmount()
     {
-    	return $this->$amount;
+    	return $this->amount;
     }
     
     /**
