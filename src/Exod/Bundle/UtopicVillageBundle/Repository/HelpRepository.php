@@ -66,4 +66,25 @@ class HelpRepository extends EntityRepository
 			return null;
 		}
 	}
+	
+	public function getHelpForNotificationPayement($userId){
+		$query = $this
+			->createQueryBuilder('h')
+			->leftJoin('h.participant', 'u')
+			->where('u.id=:userId')
+			->andWhere('h.payed=1')
+			->andWhere('h.notified<>1')
+			->setParameter("userId", $userId)
+			->getQuery();
+		return $query->getResult();
+	}
+	
+	public function getSearch($string){
+		$query = $this
+			->createQueryBuilder('h')
+			->where("h.description LIKE '%:string %'")
+			->setParameter("string", $string)
+			->getQuery();
+		return $query->getResult();
+	}
 }

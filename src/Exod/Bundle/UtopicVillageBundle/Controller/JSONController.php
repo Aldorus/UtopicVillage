@@ -241,7 +241,7 @@ class JSONController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     	//On recupere l'aide en question
     	$help = $em->getRepository('ExodUtopicVillageBundle:Help')->find($idHelp);
-    	$help->setReport(0);
+    	$help->setReport(1);
     	$em->persist($help);
     	$em->flush();
     	 
@@ -352,6 +352,44 @@ class JSONController extends Controller
     	foreach ($helps as $help){
     		$arrayHelp[]=$help->toArray();
     	}
+    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * Recuperation des notifications
+     * @Route("/{userId}/getPayementNotification", name="getPayementNotification")
+     */
+    public function getPayementNotificationAction($userId){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$helps = $em->getRepository('ExodUtopicVillageBundle:Help')->getHelpForNotificationPayement($userId);
+    	
+    	$arrayHelp = array();
+    	foreach ($helps as $help){
+    		$arrayHelp[] = $help->getUser()->toArray();	
+    		$help->setNotified(1);
+    		$em->persist($help);
+    		$em->flush();
+    	}
+    	
+    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * Recuperation par recherche de hashtag
+     * @Route("/{string}/search", name="search")
+     */
+    public function searchAction($string){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$helps = $em->getRepository('ExodUtopicVillageBundle:Help')->getSearch($string);
+    	$arrayHelp = array();
+    	foreach ($helps as $help){
+    		$arrayHelp[] = $help->getUser()->toArray();
+    	}
+    	 
     	$responseJSON = new Response(json_encode($arrayHelp));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
