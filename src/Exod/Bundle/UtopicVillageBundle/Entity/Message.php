@@ -42,6 +42,13 @@ class Message
     private $alreadyRead;
     
     /**
+     * @var boolean $notified
+     *
+     * @ORM\Column(name="notified", type="boolean", nullable=false)
+     */
+    private $notified;
+    
+    /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="User")
      */
@@ -131,6 +138,26 @@ class Message
     public function getAlreadyRead()
     {
         return $this->alreadyRead;
+    }
+    
+    /**
+     * Set notified
+     *
+     * @param boolean $notified
+     */
+    public function setNotified($notifiedd)
+    {
+    	$this->notified = $notified;
+    }
+    
+    /**
+     * Get notified
+     *
+     * @return boolean
+     */
+    public function getNotified()
+    {
+    	return $this->notified;
     }
     
     /**

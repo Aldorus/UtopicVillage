@@ -38,6 +38,9 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'pay' => true,
        'helpWhereYouVolunteer' => true,
        'helpWhereYouParticipant' => true,
+       'getPayementNotification' => true,
+       'search' => true,
+       'getInfoUser' => true,
        'role' => true,
        'role_show' => true,
        'role_new' => true,
@@ -191,6 +194,21 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function gethelpWhereYouParticipantRouteInfo()
     {
         return array(array (  0 => 'userId',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::helpWhereYouParticipantAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/helpWhereYouParticipant',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'userId',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getgetPayementNotificationRouteInfo()
+    {
+        return array(array (  0 => 'userId',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getPayementNotificationAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/getPayementNotification',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'userId',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getsearchRouteInfo()
+    {
+        return array(array (  0 => 'string',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::searchAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/search',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'string',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getgetInfoUserRouteInfo()
+    {
+        return array(array (  0 => 'userId',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getInfoUser',), array (), array (  0 =>   array (    0 => 'text',    1 => '/getInfoUser',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'userId',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
     }
 
     private function getroleRouteInfo()

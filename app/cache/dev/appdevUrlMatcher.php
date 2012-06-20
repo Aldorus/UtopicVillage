@@ -159,6 +159,21 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::helpWhereYouParticipantAction',)), array('_route' => 'helpWhereYouParticipant'));
         }
 
+        // getPayementNotification
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<userId>[^/]+?)/getPayementNotification$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getPayementNotificationAction',)), array('_route' => 'getPayementNotification'));
+        }
+
+        // search
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<string>[^/]+?)/search$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::searchAction',)), array('_route' => 'search'));
+        }
+
+        // getInfoUser
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<userId>[^/]+?)/getInfoUser$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getInfoUser',)), array('_route' => 'getInfoUser'));
+        }
+
         // role
         if (rtrim($pathinfo, '/') === '/role') {
             if (substr($pathinfo, -1) !== '/') {

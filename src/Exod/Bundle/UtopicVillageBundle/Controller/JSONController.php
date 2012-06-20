@@ -394,4 +394,20 @@ class JSONController extends Controller
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
+    
+    /**
+     * Recuperation des ifnormations sur un utilisateur
+     * @Route("/{userId}/getInfoUser", name="getInfoUser")
+     */
+    public function getInfoUser($userId){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($userId);
+    	if (!$user) {
+    		throw $this->createNotFoundException('Impossible de trouver cette demande d\'aide.');
+    	}else{
+    		$responseJSON = new Response(json_encode($user->toArray()));
+    		$responseJSON->headers->set("Content-type", "application/json");
+    		return $responseJSON;
+    	}
+    }
 }
