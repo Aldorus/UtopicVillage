@@ -28,11 +28,13 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'testConnect' => true,
        'savePosition' => true,
        'insertUser' => true,
+       'updateUser' => true,
        'yourAskingHelp' => true,
        'getNearAskingHelp' => true,
        'insetNewVolunteer' => true,
        'deleteHelp' => true,
        'reportHelp' => true,
+       'reportPlayer' => true,
        'getVolunteer' => true,
        'insertParticipant' => true,
        'pay' => true,
@@ -143,7 +145,12 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
 
     private function getinsertUserRouteInfo()
     {
-        return array(array (  0 => 'login',  1 => 'password',  2 => 'birthdate',  3 => 'email',  4 => 'name',  5 => 'firstname',  6 => 'description',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertJoueurAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertUser',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'description',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'firstname',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'email',  ),  5 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'birthdate',  ),  6 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'password',  ),  7 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'login',  ),  8 =>   array (    0 => 'text',    1 => '/json',  ),));
+        return array(array (  0 => 'password',  1 => 'birthdate',  2 => 'email',  3 => 'name',  4 => 'firstname',  5 => 'description',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::insertUserAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/insertUser',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'description',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'firstname',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'email',  ),  5 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'birthdate',  ),  6 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'password',  ),  7 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getupdateUserRouteInfo()
+    {
+        return array(array (  0 => 'idUser',  1 => 'birthdate',  2 => 'email',  3 => 'name',  4 => 'firstname',  5 => 'description',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::updateUser',), array (), array (  0 =>   array (    0 => 'text',    1 => '/updateUser',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'description',  ),  2 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'firstname',  ),  3 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  4 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'email',  ),  5 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'birthdate',  ),  6 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  7 =>   array (    0 => 'text',    1 => '/json',  ),));
     }
 
     private function getyourAskingHelpRouteInfo()
@@ -169,6 +176,11 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getreportHelpRouteInfo()
     {
         return array(array (  0 => 'idHelp',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::reportHelpAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/reportHelp',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idHelp',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
+    }
+
+    private function getreportPlayerRouteInfo()
+    {
+        return array(array (  0 => 'idUser',), array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::reportPlayerAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/reportPlayer',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'idUser',  ),  2 =>   array (    0 => 'text',    1 => '/json',  ),));
     }
 
     private function getgetVolunteerRouteInfo()

@@ -59,7 +59,7 @@ class User
     /**
      * @var date $email
      *
-     * @ORM\Column(name="email", type="string", nullable=false)
+     * @ORM\Column(name="email", type="string", nullable=false, unique=true)
      */
     private $email;
 

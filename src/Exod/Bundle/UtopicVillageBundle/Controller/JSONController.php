@@ -107,9 +107,9 @@ class JSONController extends Controller
     
     /**
      * new player
-     * @Route("/{login}/{password}/{birthdate}/{email}/{name}/{firstname}/{description}/insertUser",name="insertUser")
+     * @Route("/{password}/{birthdate}/{email}/{name}/{firstname}/{description}/insertUser",name="insertUser")
      */
-    public function insertJoueurAction($login,$password,$birthdate,$email,$name,$firstname,$description){
+    public function insertUserAction($password,$birthdate,$email,$name,$firstname,$description){
     	$em = $this->getDoctrine()->getEntityManager();
     	
     	//recuperation du role joueur
@@ -119,12 +119,12 @@ class JSONController extends Controller
     	$user = new User();
     	$user->setActive(1);
     	$user->setBirthdate(new \DateTime($birthdate));
-    	$user->setLogin($login);
     	$user->setEmail($email);
     	$user->setFirstname($firstname);
     	$user->setName($name);
     	$user->setPassword($password);
     	$user->setReport(0);
+    	$user->setAmount(Constante::AMOUNT_START);
     	$user->setSalt("123");
     	$user->setRole($roleUser);
     	$user->setPicture(NULL);
@@ -136,6 +136,29 @@ class JSONController extends Controller
     	$em->persist($user);
     	$em->flush();
     	
+    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * update player
+     * @Route("/{idUser}/{birthdate}/{email}/{name}/{firstname}/{description}/updateUser",name="updateUser")
+     */
+    public function updateUser($idUser,$birthdate,$email,$name,$firstname,$description){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	//recuperation de l'user
+    	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($idUser);
+    	 
+    	//setting joueur
+    	$user->setBirthdate(new \DateTime($birthdate));
+    	$user->setEmail($email);
+    	$user->setFirstname($firstname);
+    	$user->setName($name);
+    	 
+    	$em->persist($user);
+    	$em->flush();
+    	 
     	$responseJSON = new Response(json_encode(array("status" => "ok")));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
@@ -249,6 +272,24 @@ class JSONController extends Controller
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
+    
+    /**
+     * Signaler un joueur
+     * @Route("/{idUser}/reportPlayer", name="reportPlayer")
+     */
+    public function reportPlayerAction($idUser){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	//On recupere le joueur en question
+    	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($idUser);
+    	$user->setReport(1);
+    	$em->persist($user);
+    	$em->flush();
+    
+    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
     
     /**
      * Recuperation des volontaires pour une demande d'aide

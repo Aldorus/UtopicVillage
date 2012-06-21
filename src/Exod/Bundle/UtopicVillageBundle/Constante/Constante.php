@@ -10,6 +10,14 @@ class Constante{
 	const ROLE_MODERATEUR="ROLE_MODERATEUR";
 	const ROLE_USER="ROLE_USER";
 	
+	/*************
+	 * TOLERANCE
+	 *************/
 	const DISTANCE_LATITUDE=0.5;
 	const DISTANCE_LONGITUDE=0.5;
+	
+	/*******************
+	 * POINTS DE DEPART
+	 *******************/
+	const AMOUNT_START=100;
 }
