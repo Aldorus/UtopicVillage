@@ -87,4 +87,14 @@ class HelpRepository extends EntityRepository
 			->getQuery();
 		return $query->getResult();
 	}
+	
+	public function getHelpNotifed($idUser){
+		$query = $this
+			->createQueryBuilder('h')
+			->where("h.participant=:idUser")
+			->andWhere('h.received<>1')
+			->setParameter("idUser", $idUser)
+			->getQuery();
+		return $query->getResult();
+	}
 }

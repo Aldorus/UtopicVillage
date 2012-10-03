@@ -84,6 +84,14 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // home
+        if (rtrim($pathinfo, '/') === '') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'home');
+            }
+            return array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\HomeController::homeAction',  '_route' => 'home',);
+        }
+
         // help
         if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<id>[^/]+?)/help$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::helpAction',)), array('_route' => 'help'));
@@ -172,6 +180,11 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         // getPayementNotification
         if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<userId>[^/]+?)/getPayementNotification$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getPayementNotificationAction',)), array('_route' => 'getPayementNotification'));
+        }
+
+        // getParticipantNotification
+        if (0 === strpos($pathinfo, '/json') && preg_match('#^/json/(?P<userId>[^/]+?)/getParticipantNotification$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Exod\\Bundle\\UtopicVillageBundle\\Controller\\JSONController::getParticipantNotificationAction',)), array('_route' => 'getParticipantNotification'));
         }
 
         // search

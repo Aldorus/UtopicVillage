@@ -84,6 +84,18 @@ class ExodBundleUtopicVillageBundleEntityMessageProxy extends \Exod\Bundle\Utopi
         return parent::getAlreadyRead();
     }
 
+    public function setNotified($notifiedd)
+    {
+        $this->__load();
+        return parent::setNotified($notifiedd);
+    }
+
+    public function getNotified()
+    {
+        $this->__load();
+        return parent::getNotified();
+    }
+
     public function setSender($sender)
     {
         $this->__load();
@@ -111,7 +123,7 @@ class ExodBundleUtopicVillageBundleEntityMessageProxy extends \Exod\Bundle\Utopi
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'body', 'date', 'new', 'alreadyRead', 'sender', 'receiver');
+        return array('__isInitialized__', 'body', 'date', 'new', 'alreadyRead', 'notified', 'sender', 'receiver');
     }
 
     public function __clone()

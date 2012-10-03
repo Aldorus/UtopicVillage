@@ -42,18 +42,6 @@ class ExodBundleUtopicVillageBundleEntityUserProxy extends \Exod\Bundle\UtopicVi
         return parent::getId();
     }
 
-    public function setLogin($login)
-    {
-        $this->__load();
-        return parent::setLogin($login);
-    }
-
-    public function getLogin()
-    {
-        $this->__load();
-        return parent::getLogin();
-    }
-
     public function setPassword($password)
     {
         $this->__load();
@@ -234,6 +222,30 @@ class ExodBundleUtopicVillageBundleEntityUserProxy extends \Exod\Bundle\UtopicVi
         return parent::getLongitude();
     }
 
+    public function setAmount($amount)
+    {
+        $this->__load();
+        return parent::setAmount($amount);
+    }
+
+    public function getAmount()
+    {
+        $this->__load();
+        return parent::getAmount();
+    }
+
+    public function setDescription($description)
+    {
+        $this->__load();
+        return parent::setDescription($description);
+    }
+
+    public function getDescription()
+    {
+        $this->__load();
+        return parent::getDescription();
+    }
+
     public function toArray($bool = true)
     {
         $this->__load();
@@ -243,7 +255,7 @@ class ExodBundleUtopicVillageBundleEntityUserProxy extends \Exod\Bundle\UtopicVi
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'login', 'password', 'salt', 'name', 'firstname', 'birthdate', 'email', 'lastConnection', 'picture', 'report', 'active', 'role', 'sanction', 'dateSanction', 'latitude', 'longitude');
+        return array('__isInitialized__', 'id', 'password', 'salt', 'name', 'firstname', 'birthdate', 'email', 'lastConnection', 'picture', 'report', 'active', 'role', 'sanction', 'dateSanction', 'latitude', 'longitude', 'amount', 'commentaire');
     }
 
     public function __clone()

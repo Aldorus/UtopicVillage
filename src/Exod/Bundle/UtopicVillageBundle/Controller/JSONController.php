@@ -29,11 +29,20 @@ class JSONController extends Controller
     {
     	$em = $this->getDoctrine()->getEntityManager();
     	$help = $em->getRepository('ExodUtopicVillageBundle:Help')->find($id);
+    	$responseJSON;
     	if (!$help) {
-            throw $this->createNotFoundException('Impossible de trouver cette demande d\'aide.');
+            $responseJSON = new Response(json_encode(array(
+            		"status" 	=> "ok",
+            		"result"	=> "nook"
+            )));
         }else{
-        	$responseJSON = new Response(json_encode($help->toArray()));
-	    	$responseJSON->headers->set("Content-type", "application/json");
+        	$responseJSON = new Response(json_encode(array(
+        			"status" 	=> "ok",
+        			"result"	=> array(
+        					"help"	=> $help->toArray()
+        			)
+        	)));
+        	$responseJSON->headers->set("Content-type", "application/json");
 	    	return $responseJSON;
     	}
     }
@@ -48,21 +57,19 @@ class JSONController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     	//On recupere l'user en question
     	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($idUser);
-    	
+    	$responseJSON;
     	$help = new Help();
-    	$help->setActive(1);
-    	$help->setAmount($amount);
-    	$help->setDescription($text);
-    	$help->setReport(0);
-    	$help->setReproducible($reproducible);
-    	$help->setUser($user);
-    	$help->setDate(new \DateTime());
-    	
-    	$em = $this->getDoctrine()->getEntityManager();
-        $em->persist($help);
-        $em->flush();
-    	
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+	    $help->setActive(1);
+	    $help->setAmount($amount);
+	    $help->setDescription($text);
+	    $help->setReport(0);
+	    $help->setReproducible($reproducible);
+	    $help->setUser($user);
+	    $help->setDate(new \DateTime());
+	    $em = $this->getDoctrine()->getEntityManager();
+	    $em->persist($help);
+	    $em->flush();
+	    $responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -77,10 +84,17 @@ class JSONController extends Controller
     	
     	$responseJSON;
     	if($user !=null){
-    		$responseJSON = new Response(json_encode(array("status" => "ok",
-    				"user" =>	$user->toArray())));
+    		$responseJSON = new Response(json_encode(array(
+    			"status" 	=> "ok",
+    			"results"	=> array(
+    				"user"	=> $user->toArray()
+    			),
+    		)));
     	}else{
-    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    		$responseJSON = new Response(json_encode(array(
+    			"status" 	=> "ok",
+    			"results"	=> "nook"
+    		)));
     	}
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
@@ -100,7 +114,7 @@ class JSONController extends Controller
     	$em->persist($user);
         $em->flush();
         
-        $responseJSON = new Response(json_encode(array("status" => "ok")));
+        $responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
         $responseJSON->headers->set("Content-type", "application/json");
         return $responseJSON;
     }
@@ -133,10 +147,21 @@ class JSONController extends Controller
     	$user->setLastConnection(new \DateTime());
     	$user->setDescription($description);
     	
-    	$em->persist($user);
-    	$em->flush();
-    	
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON;
+    	$userTest = $em->getRepository('ExodUtopicVillageBundle:User')->findOneByEmail($user->getEmail());
+    	if(!$userTest){
+	    	$em->persist($user);
+	    	$em->flush();
+	    	$responseJSON = new Response(json_encode(array(
+	    			"status"	=> "ok",
+	    			"results"	=> "ok"
+	    	)));
+    	}else{
+    		$responseJSON = new Response(json_encode(array(
+    				"status"	=> "ok",
+    				"results"	=> utf8_encode("Cette adresse email est déjà utilisée")
+    		)));
+    	}
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -159,7 +184,7 @@ class JSONController extends Controller
     	$em->persist($user);
     	$em->flush();
     	 
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -173,10 +198,19 @@ class JSONController extends Controller
     	$repository = $this->getDoctrine()->getRepository('ExodUtopicVillageBundle:Help');
     	 
     	$help = $repository->getYourAskingHelp($idUser);
+    	$responseJSON;
     	if($help){
-    		$responseJSON = new Response(json_encode($help->toArray()));
+    		$responseJSON = new Response(json_encode(array(
+    				"status"	=>	"ok",
+    				"results"	=> array(
+    						"help"	=>	$help->toArray()
+    				)
+    		)));
     	}else{
-    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    		$responseJSON = new Response(json_encode(array(
+    				"status"	=>	"ok",
+    				"results"	=> "nook"
+    		)));
     	}
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
@@ -196,7 +230,12 @@ class JSONController extends Controller
     		$arrayJSON[]=$help->toArray(true);
     	}
     	 
-    	$responseJSON = new Response(json_encode($arrayJSON));
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array(
+    						"helps"	=> $arrayJSON
+    			)
+    	)));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -221,9 +260,9 @@ class JSONController extends Controller
 	    	$volonteer->setDate(new \DateTime());
 	    	$em->persist($volonteer);
 	    	$em->flush();
-	    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+	    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	}else{
-    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    		$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"nook")));
     	}
     	
     	$responseJSON->headers->set("Content-type", "application/json");
@@ -248,9 +287,9 @@ class JSONController extends Controller
 	    	$em->persist($help);
 	    	$em->flush();
 	    	
-	    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+	    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	}else{
-    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    		$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"nook")));
     	}
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
@@ -268,7 +307,7 @@ class JSONController extends Controller
     	$em->persist($help);
     	$em->flush();
     	 
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -285,7 +324,7 @@ class JSONController extends Controller
     	$em->persist($user);
     	$em->flush();
     
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -304,7 +343,10 @@ class JSONController extends Controller
     	foreach ($volunteers as $volunteer){
     		$arrayVolunteer[]=$volunteer->getUser()->toArray();
     	}
-    	$responseJSON = new Response(json_encode($arrayVolunteer));
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array("volunteers"=>$arrayVolunteer)
+    	)));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -323,7 +365,7 @@ class JSONController extends Controller
     	$help->setParticipant($user);
     	$em->persist($help);
     	$em->flush();
-    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -355,12 +397,12 @@ class JSONController extends Controller
 		    	$em->persist($help);
 		    	$em->flush();
 		    	 
-		    	$responseJSON = new Response(json_encode(array("status" => "ok")));
+		    	$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"ok")));
     		}else{
-    			$responseJSON = new Response(json_encode(array("status" => "nook")));
+    			$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"nook")));
     		}
     	}else{
-    		$responseJSON = new Response(json_encode(array("status" => "nook")));
+    		$responseJSON = new Response(json_encode(array("status" => "ok","results"=>"nook")));
     	}
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
@@ -377,7 +419,12 @@ class JSONController extends Controller
     	foreach ($volunteers as $volunteer){
     		$arrayHelp[]=$volunteer->getHelp()->toArray();
     	}
-    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array(
+    					"helps"	=>	$arrayHelp
+    			)
+    	)));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -393,7 +440,12 @@ class JSONController extends Controller
     	foreach ($helps as $help){
     		$arrayHelp[]=$help->toArray();
     	}
-    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array(
+    					"helps"	=>	$arrayHelp
+    			)
+    	)));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -414,7 +466,38 @@ class JSONController extends Controller
     		$em->flush();
     	}
     	
-    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array(
+    					"helps"	=>	$arrayHelp
+    			)
+    	)));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	return $responseJSON;
+    }
+    
+    /**
+     * Recuperation des notifications
+     * @Route("/{userId}/getParticipantNotification", name="getParticipantNotification")
+     */
+    public function getParticipantNotificationAction($userId){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$helps = $em->getRepository('ExodUtopicVillageBundle:Help')->getHelpNotifed($userId);
+    	 
+    	$arrayHelp = array();
+    	foreach ($helps as $help){
+    		$arrayHelp[] = $help->getUser()->toArray();
+    		$help->setReceived(1);
+    		$em->persist($help);
+    		$em->flush();
+    	}
+    	 
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array(
+    					"helps"	=>	$arrayHelp
+    			)
+    	)));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -431,7 +514,12 @@ class JSONController extends Controller
     		$arrayHelp[] = $help->getUser()->toArray();
     	}
     	 
-    	$responseJSON = new Response(json_encode($arrayHelp));
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	array(
+    					"helps"	=>	$arrayHelp
+    			)
+    	)));
     	$responseJSON->headers->set("Content-type", "application/json");
     	return $responseJSON;
     }
@@ -444,11 +532,72 @@ class JSONController extends Controller
     	$em = $this->getDoctrine()->getEntityManager();
     	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($userId);
     	if (!$user) {
-    		throw $this->createNotFoundException('Impossible de trouver cette demande d\'aide.');
+    		throw $this->createNotFoundException('Impossible de trouver cet utilisateur.');
     	}else{
-    		$responseJSON = new Response(json_encode($user->toArray()));
+    		$responseJSON = new Response(json_encode(array(
+    				"status"	=>	"ok",
+    				"results"	=>	array(
+    						"user"	=>$user->toArray()	
+    				)
+    		)));
     		$responseJSON->headers->set("Content-type", "application/json");
     		return $responseJSON;
     	}
     }
+    
+    /**
+     * Update du password utilisateur
+     * @Route("/{userId}/{newPassword}/updatePassword", name="updatePassword")
+     */
+    public function updatePassword($userId,$newPassword){
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$user = $em->getRepository('ExodUtopicVillageBundle:User')->find($userId);
+    	if (!$user) {
+    		throw $this->createNotFoundException('Impossible de trouver cet utilisateur.');
+    	}else{
+    		$user->setPassword($newPassword);
+    		$em->persist($user);
+    		$em->flush();
+    		$responseJSON = new Response(json_encode(array(
+    				"status"	=>	"ok",
+    				"results"	=>	"ok"
+    		)));
+    		$responseJSON->headers->set("Content-type", "application/json");
+    		return $responseJSON;
+    	}
+    }
+    
+    /**
+     * Mot de passe oublié
+     * @Route("/{email}/forgottenPassword", name="forgottenPassword")
+     */
+    public function forgottenPassword($email){
+    	//generation d'un nouveau mot de passe
+    	$newPassword = \GenerateurPassword::newChaine();
+    	
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$user = $em->getRepository('ExodUtopicVillageBundle:User')->findByEmail($email);
+    	$user->setPassword($newPassword);
+    	$em->persist($user);
+    	$em->flush();
+    	
+    	$responseJSON = new Response(json_encode(array(
+    			"status"	=>	"ok",
+    			"results"	=>	"ok"
+    	)));
+    	$responseJSON->headers->set("Content-type", "application/json");
+    	
+    	//we send the email
+    	$email = "Vous avez demandé un nouveau mot de passe : <br/> "+$newPassword;
+    	$mail = \Swift_Message::newInstance()
+    		->setSubject('Nouveau mot de passe')
+    		->setFrom(Constante::MAIL_FROM)
+    		->setTo($email)
+    		->setBody($message);
+    	 
+    	$this->get('mailer')->send($mail);
+    	
+    	return $responseJSON;
+    }
+    
 }

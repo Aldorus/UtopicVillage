@@ -48,6 +48,18 @@ class ExodBundleUtopicVillageBundleEntityVolunteerProxy extends \Exod\Bundle\Uto
         return parent::getDate();
     }
 
+    public function setActive($date)
+    {
+        $this->__load();
+        return parent::setActive($date);
+    }
+
+    public function getActive()
+    {
+        $this->__load();
+        return parent::getActive();
+    }
+
     public function setUser($user)
     {
         $this->__load();
@@ -75,7 +87,7 @@ class ExodBundleUtopicVillageBundleEntityVolunteerProxy extends \Exod\Bundle\Uto
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'date', 'user', 'help');
+        return array('__isInitialized__', 'date', 'active', 'user', 'help');
     }
 
     public function __clone()

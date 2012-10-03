@@ -102,6 +102,42 @@ class ExodBundleUtopicVillageBundleEntityHelpProxy extends \Exod\Bundle\UtopicVi
         return parent::getActive();
     }
 
+    public function setPayed($payed)
+    {
+        $this->__load();
+        return parent::setPayed($payed);
+    }
+
+    public function getPayed()
+    {
+        $this->__load();
+        return parent::getPayed();
+    }
+
+    public function setReceived($received)
+    {
+        $this->__load();
+        return parent::setReceived($received);
+    }
+
+    public function getReceived()
+    {
+        $this->__load();
+        return parent::getReceived();
+    }
+
+    public function setNotified($notified)
+    {
+        $this->__load();
+        return parent::setNotified($notified);
+    }
+
+    public function getNotified()
+    {
+        $this->__load();
+        return parent::getNotified();
+    }
+
     public function setUser($user)
     {
         $this->__load();
@@ -114,6 +150,30 @@ class ExodBundleUtopicVillageBundleEntityHelpProxy extends \Exod\Bundle\UtopicVi
         return parent::getUser();
     }
 
+    public function setParticipant($participant)
+    {
+        $this->__load();
+        return parent::setParticipant($participant);
+    }
+
+    public function getParticipant()
+    {
+        $this->__load();
+        return parent::getParticipant();
+    }
+
+    public function setDate($date)
+    {
+        $this->__load();
+        return parent::setDate($date);
+    }
+
+    public function getDate()
+    {
+        $this->__load();
+        return parent::getDate();
+    }
+
     public function toArray($bool = true)
     {
         $this->__load();
@@ -123,7 +183,7 @@ class ExodBundleUtopicVillageBundleEntityHelpProxy extends \Exod\Bundle\UtopicVi
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'description', 'amount', 'reproducible', 'report', 'active', 'user');
+        return array('__isInitialized__', 'id', 'description', 'amount', 'reproducible', 'report', 'active', 'payed', 'received', 'notified', 'date', 'user', 'participant');
     }
 
     public function __clone()
